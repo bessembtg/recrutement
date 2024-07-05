@@ -1,0 +1,43 @@
+<!-- table.component.html -->
+<div>
+  <button class="btn btn-info mb-4"  (click)="showtable()">Charger les CV</button>
+</div>
+
+<table class="table table-striped table-bordered">
+  <thead>
+  <tr>
+    <th>nomPrenom</th>
+    <th>age</th>
+    <th>region</th>
+    <th>etude</th>
+    <th>diplome</th>
+    <th>experience</th>
+    <th>coordonnees</th>
+    <th>recommandationsDePoste</th>
+    <th>email</th>
+    <th>specialite</th>
+    <th>commentaires</th>
+    <th>date</th>
+    <th>entretienTelephonique</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let cv of cv">
+    <td>{{cv.nomPrenom}}</td>
+    <td>{{cv.age}}</td>
+ <td>{{cv.region}}</td>
+    <td>{{cv.etude}}</td>
+ <td>{{cv.diplome}}</td>
+    <td>{{cv.experience}}</td>
+ <td>{{cv.coordonnees}}</td>
+    <td>{{cv.recommandationsDePoste}}</td>td>{{cv.region}}
+    <td>{{cv.email}}</td>
+ <td>{{cv.specialite}}</td>
+    <td>{{cv.commentaires}}</td>
+ <td>{{cv.date}}</td>
+    <td>{{cv.entretienTelephonique}}</td>
+
+  </tr>
+  </tbody>
+</table>

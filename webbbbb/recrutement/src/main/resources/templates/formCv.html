@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulaire CV</title>
+</head>
+<body>
+<form action="/submitCv" method="post" enctype="multipart/form-data">
+    <!-- Champs à remplir par l'utilisateur -->
+    <label for="nomPrenom">Nom et Prénom:</label>
+    <input type="text" id="nomPrenom" name="nomPrenom" required><br><br>
+
+    <label for="age">Âge:</label>
+    <input type="number" id="age" name="age" min="0" required><br><br>
+
+    <label for="region">Région:</label>
+    <input type="text" id="region" name="region" required><br><br>
+
+    <label for="etude">Niveau d'étude:</label>
+    <input type="text" id="etude" name="etude" required><br><br>
+
+    <label for="diplome">Diplôme:</label>
+    <select id="diplome" name="diplome" required>
+        <option value="Bac">Bac</option>
+        <option value="BTP">BTP</option>
+        <option value="BTS">BTS</option>
+        <option value="Licence">Licence</option>
+        <option value="Master">Master</option>
+        <option value="Ingenieurie">Ingénieur</option>
+        <option value="Doctorat">Doctorat</option>
+    </select><br><br>
+
+    <label for="specialite">Spécialité:</label>
+    <input type="text" id="specialite" name="specialite"><br><br>
+
+
+    <label for="experience">Expérience:</label>
+    <input type="text" id="experience" name="experience" required><br><br>
+
+    <label for="coordonnees">Coordonnées:</label>
+    <input type="text" id="coordonnees" name="coordonnees" required><br><br>
+
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="recommandationsDePoste">Recommandations de poste:</label>
+    <input type="text" id="recommandationsDePoste" name="recommandationsDePoste" required><br><br>
+
+    <label for="commentaires">commentaire</label>
+    <textarea id="commentaires" name="commentaires" required cols="50" rows="10"></textarea><br><br>
+
+    <label for="cv">cv:</label>
+    <input type="file" id="cv" name="cv" required><br><br>
+
+    <input type="submit" value="Soumettre">
+</form>
+</body>
+</html>

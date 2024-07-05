@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Entretiens</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+<div class="container-fluid mt-4">
+    <h1>Gestion des Entretiens</h1>
+
+    <!-- Bouton et liste déroulante pour le filtrage -->
+    <div class="mb-4">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Filtrer par
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+            <li><a class="dropdown-item" href="#" onclick="showFilterOptions('Région', 5)">Région</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showFilterOptions('Âge', 4)">Âge</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showFilterOptions('Niveau d\'étude', 6)">Niveau d'étude</a></li>
+            <li><a class="dropdown-item" href="#" onclick="clearFilter()">Annuler le filtrage</a></li>
+        </ul>
+    </div>
+
+    <!-- Options de filtrage dynamiques -->
+    <div id="filterOptions" class="mb-4" style="display: none;">
+        <select id="filterValues" class="form-select w-25" onchange="applyFilter()">
+            <!-- Options dynamiques seront ajoutées ici par JavaScript -->
+        </select>
+    </div>
+
+    <!-- Table des entretiens -->
+    <table id="entretiensTable" class="table">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Numéro CV</th>
+            <th>CV</th>
+            <th>Nom et Prénom</th>
+            <th>Âge</th>
+            <th>Région</th>
+            <th>Niveau d'Étude</th>
+            <th>Diplôme</th>
+            <th>Spécialité</th>
+            <th>Expérience</th>
+            <th>Coordonnées</th>
+            <th>E-mail</th>
+            <th>Recommandations de poste</th>
+            <th>Date_entretien</th>
+            <th>Horaire</th>
+            <th>Lieu</th>
+            <th>Type_entretient</th>
+            <th>Evaluateur_1</th>
+            <th>Evaluateur_2</th>
+            <th>Evaluateur_3</th>
+            <th>Edit</th>
+            <th>Envoi_Etat</th>
+            <th>Envoi_message</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ent : ${ent}">
+            <td th:text="${ent.date}">Numéro CV inconnu</td>
+            <td th:text="${ent.numCv}">Numéro CV inconnu</td>
+            <td>
+                <form th:action="@{'/download-cv/' + ${ent.numCv}}" method="POST">
+                    <button type="submit" class="btn btn-primary">Download</button>
+                </form>
+            </td>
+            <td th:text="${ent.nomPrenom}"></td>
+            <td th:text="${ent.age}"></td>
+            <td th:text="${ent.region}"></td>
+            <td th:text="${ent.etude}"></td>
+            <td th:text="${ent.diplome}"></td>
+            <td th:text="${ent.specialite}"></td>
+            <td th:text="${ent.experience}"></td>
+            <td th:text="${ent.coordonnees}"></td>
+            <td th:text="${ent.email}">E-mail inconnu</td>
+            <td th:text="${ent.recommandationsDePoste}">Recommandations de poste inconnues</td>
+
+            <form th:action="@{'/updateCondidat/' + ${ent.entretienId}}" method="POST">
+                <td>
+                    <span th:if="${ent.Date_entretien == null}"></span>
+                    <input type="text" name="Date_entretien" placeholder="Date_entretien" required>
+                    <div th:if="${ent.Date_entretien != null}" th:text="${ent.Date_entretien}"></div>
+                </td>
+                <td>
+                    <span th:if="${ent.Horaire == null}"></span>
+                    <input type="text" name="Horaire" placeholder="Horaire" required>
+                    <div th:if="${ent.Horaire != null}" th:text="${ent.Horaire}"></div>
+                </td>
+                <td>
+                    <span th:if="${ent.Lieu == null}"></span>
+                    <input type="text" name="Lieu" placeholder="Lieu" required>
+                    <div th:if="${ent.Lieu != null}" th:text="${ent.Lieu}"></div>
+                </td>
+                <td>
+                    <span th:if="${ent.Type_entretein == null}"></span>
+                    <input type="text" name="Type_entretein" placeholder="Type_entretein" required>
+                    <div th:if="${ent.Type_entretein != null}" th:text="${ent.Type_entretein}"></div>
+                </td>
+                <td>
+                    <span th:if="${ent.Evaluateur_1 == null}"></span>
+                    <input type="text" name="Evaluateur_1" placeholder="Evaluateur_1" required>
+                    <div th:if="${ent.Evaluateur_1 != null}" th:text="${ent.Evaluateur_1}"></div>
+                </td>
+                <td>
+                    <span th:if="${ent.Evaluateur_2 == null}"></span>
+                    <input type="text" name="Evaluateur_2" placeholder="Evaluateur_2" required>
+                    <div th:if="${ent.Evaluateur_2 != null}" th:text="${ent.Evaluateur_2}"></div>
+                </td>
+                <td>
+                    <span th:if="${ent.Evaluateur_3 == null}"></span>
+                    <input type="text" name="Evaluateur_3" placeholder="Evaluateur_3" required>
+                    <div th:if="${ent.Evaluateur_3 != null}" th:text="${ent.Evaluateur_3}"></div>
+                </td>
+                <td><button type="submit" class="btn btn-info">Sauvegarder</button></td>
+            </form>
+            <td>
+                <div class="d-flex">
+                    <button class="btn btn-danger" onclick="envoyerMessageRefus(this)">non validé</button>
+                    <button class="btn btn-info" onclick="envoyerMessageDeuxiemeTour(this)">validé</button>
+                </div>
+            </td>
+            <td th:text="${ent.Envoi_message}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+    // Fonction pour afficher les options de filtrage
+    function showFilterOptions(filterBy, columnIndex) {
+        var filterValues = document.getElementById('filterValues');
+        var filterOptions = document.getElementById('filterOptions');
+        filterValues.innerHTML = '';
+
+        // Mettre à jour le texte du bouton de filtrage
+        var filterDropdown = document.getElementById('filterDropdown');
+        filterDropdown.textContent = 'Filtrer par ' + filterBy;
+
+        // Ajouter l'option par défaut
+        var defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Choisir (' + filterBy + ')';
+        filterValues.appendChild(defaultOption);
+
+        // Obtenez les valeurs uniques pour le critère de filtrage
+        var uniqueValues = [];
+
+        var rows = document.querySelectorAll('#entretiensTable tbody tr');
+        rows.forEach(function(row) {
+            var cellValue = row.cells[columnIndex].textContent.trim();
+            if (!uniqueValues.includes(cellValue)) {
+                uniqueValues.push(cellValue);
+            }
+        });
+
+        // Ajouter les valeurs uniques comme options dans le select
+        uniqueValues.forEach(function(value) {
+            var option = document.createElement('option');
+            option.value = value;
+            option.textContent = value;
+            filterValues.appendChild(option);
+        });
+
+        // Afficher les options de filtrage
+        filterOptions.style.display = 'block';
+    }
+
+    // Fonction pour appliquer le filtrage
+    function applyFilter() {
+        var filterValue = document.getElementById('filterValues').value;
+        var rows = document.querySelectorAll('#entretiensTable tbody tr');
+
+        rows.forEach(function(row) {
+            var match = false;
+            for (var i = 0; i < row.cells.length; i++) {
+                if (row.cells[i].textContent.trim() === filterValue) {
+                    match = true;
+                    break;
+                }
+            }
+            // Afficher toutes les lignes si l'option par défaut est sélectionnée
+            row.style.display = match || filterValue === '' ? '' : 'none';
+        });
+    }
+
+
+    // Fonction pour effacer le filtrage
+    function clearFilter() {
+        var filterDropdown = document.getElementById('filterDropdown');
+        filterDropdown.textContent = 'Filtrer par';
+        var filterOptions = document.getElementById('filterOptions');
+        filterOptions.style.display = 'none';
+
+        var rows = document.querySelectorAll('#entretiensTable tbody tr');
+        rows.forEach(function(row) {
+            row.style.display = '';
+        });
+    }
+</script>
+
+<script>
+    function envoyerMessageRefus(button) {
+        const row = button.closest('tr'); // Trouve la ligne parente du bouton cliqué
+        const nomPrenom = row.cells[3].textContent.trim(); // Récupère le nom et prénom (troisième cellule)
+        const email = row.cells[11].textContent.trim(); // Récupère l'email (onzième cellule)
+        const sujet = "Refus de candidature";
+        const corps = `Bonjour ${nomPrenom},\n\nNous regrettons de vous informer que votre candidature n'a pas été retenue pour ce poste. Merci pour votre intérêt.\n\nCordialement,`;
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(sujet)}&body=${encodeURIComponent(corps)}`;
+    }
+
+    function envoyerMessageDeuxiemeTour(button) {
+        const row = button.closest('tr'); // Trouve la ligne parente du bouton cliqué
+        const nomPrenom = row.cells[3].textContent.trim(); // Récupère le nom et prénom (troisième cellule)
+        const email = row.cells[11].textContent.trim(); // Récupère l'email (onzième cellule)
+        const sujet = "Passage au deuxième tour";
+        const corps = `Bonjour cher ${nomPrenom},\n\nNous vous remercions pour l'intérêt que vous avez manifesté en postulant au sein de Sancella. Nous revenons vers vous suite à l'étude de votre dossier de candidature.\n\nCordialement,\n\n`;
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(sujet)}&body=${encodeURIComponent(corps)}`;
+    }
+</script>
+</body>
+</html>
